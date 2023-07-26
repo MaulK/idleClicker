@@ -22,7 +22,7 @@ function buyAutoClicker() {
     if (points >= autoClickerCost) {
         points -= autoClickerCost;
         autoClickerLevel += 1;
-        autoClickerCost *= 100;
+        autoClickerCost *= 10;
         updatePointsDisplay();
         updateAutoClickerDisplay();
 
