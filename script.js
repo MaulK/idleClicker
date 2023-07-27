@@ -86,5 +86,24 @@ window.onload = function() {
     }
 };
 
+function goToLogin() {
+    window.location.href = "login.html";
+}
+
+// Function to go to the register page when the register button is clicked
+function goToRegister() {
+    window.location.href = "register.html";
+}
+
+// Call the updateTop10 function when the main game page loads
+window.onload = function() {
+    if (document.getElementById("leaderboard")) {
+        displayLeaderboard();
+    } else {
+        updateTop10();
+    }
+    updatePointsDisplay(); // Make sure to update points display
+};
+
 // Call the checkAffordability function every 100 milliseconds to update button states
 setInterval(checkAffordability, 100);
