@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Idle Clicker Game</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Idle Clicker Game</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-
 <body>
-    <h1>Idle Clicker Game</h1>
+  <header>
+    <nav>
+      <h1>Idle Clicker Game</h1>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn">Account</a>
+          <div class="dropdown-content">
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
     <p>Points: <span id="points">0</span></p>
     <button id="clickButton" onclick="clickPoint()">Click Me!</button>
     <p>Auto-Clicker Level: <span id="autoClickerLevel">0</span></p>
     <p>Auto-Clicker Cost: <span id="autoClickerCost">10</span></p>
     <button id="buyAutoClicker" onclick="buyAutoClicker()" disabled>Buy Auto-Clicker</button>
+    <p>Coins: <span id="coins">0</span></p>
+    <button id="rebirthButton" onclick="rebirth()">Rebirth</button>
+    <p>Rebirths: <span id="rebirths">0</span></p>
+  </main>
 
-    <button id="loginButton" onclick="goToLogin()">Login</button>
-    <button id="registerButton" onclick="goToRegister()">Register</button>
-
-    <h2>Top 10 Scores</h2>
-    <ol id="top10">
-        <!-- The top 10 scores will be populated dynamically using JavaScript -->
-    </ol>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
-
 </html>
