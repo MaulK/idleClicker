@@ -1,8 +1,10 @@
 let points = 0;
 let autoClickerLevel = 0;
-let autoClickerCost = 100;
+let autoClickerCost = 10;
 let autoClickerInterval;
-const MAX_LEADERBOARD_ENTRIES = 1000; // Set the maximum number of leaderboard entries to display
+let coins = 0;
+let rebirths = 0;
+const REBIRTH_CLICKS_REQUIRED = 100000;
 
 function updatePointsDisplay() {
     document.getElementById("points").innerText = points;
@@ -22,7 +24,7 @@ function buyAutoClicker() {
     if (points >= autoClickerCost) {
         points -= autoClickerCost;
         autoClickerLevel += 1;
-        autoClickerCost *= 10;
+        autoClickerCost *= 2;
         updatePointsDisplay();
         updateAutoClickerDisplay();
 
@@ -45,36 +47,60 @@ function checkAffordability() {
 
 // Function to update the leaderboard with the latest scores
 function displayLeaderboard() {
-    const leaderboardList = document.getElementById("leaderboard");
-    leaderboardList.innerHTML = "";
+    const leaderboardTable = document.getElementById("leaderboardTable");
+    leaderboardTable.innerHTML = `
+      <tr>
+        <th>Username</th>
+        <th>Clicks</th>
+        <th>Rebirths</th>
+      </tr>
+    `;
 
     // Fetch leaderboard data from local storage
     const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-    leaderboard.sort((a, b) => b.score - a.score);
-    leaderboard.splice(MAX_LEADERBOARD_ENTRIES); // Limit the leaderboard entries to the max
+    leaderboard.sort((a, b) => b.clicks - a.clicks);
 
-    leaderboard.forEach((entry, index) => {
-        const listItem = document.createElement("li");
-        listItem.innerText = `#${index + 1}: Score: ${entry.score}`;
-        leaderboardList.appendChild(listItem);
+    leaderboard.slice(0, 10).forEach((entry, index) => {
+        const row = document.createElement("tr");
+        const usernameCell = document.createElement("td");
+        const clicksCell = document.createElement("td");
+        const rebirthsCell = document.createElement("td");
+
+        usernameCell.innerText = entry.username;
+        clicksCell.innerText = entry.clicks;
+        rebirthsCell.innerText = entry.rebirths;
+
+        row.appendChild(usernameCell);
+        row.appendChild(clicksCell);
+        row.appendChild(rebirthsCell);
+
+        leaderboardTable.appendChild(row);
     });
 }
 
-// Function to update the top 10 scores on the main page
-function updateTop10() {
-    const top10List = document.getElementById("top10");
-    top10List.innerHTML = "";
+// Function to handle rebirth
+function rebirth() {
+    if (points >= REBIRTH_CLICKS_REQUIRED) {
+        points = 0;
+        autoClickerLevel = 0;
+        coins += 1;
+        rebirths += 1;
+        clearInterval(autoClickerInterval);
+        updatePointsDisplay();
+        updateAutoClickerDisplay();
+        updateCoinsDisplay();
+        updateRebirthsDisplay();
+    }
+}
 
-    // Fetch leaderboard data from local storage
-    const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-    leaderboard.sort((a, b) => b.score - a.score);
-    const top10 = leaderboard.slice(0, 10); // Get the top 10 scores
+// Function to update coins display
+function updateCoinsDisplay() {
+    document.getElementById("coins").innerText = coins;
+}
 
-    top10.forEach((entry, index) => {
-        const listItem = document.createElement("li");
-        listItem.innerText = `#${index + 1}: Score: ${entry.score}`;
-        top10List.appendChild(listItem);
-    });
+// Function to update rebirths display
+function updateRebirthsDisplay() {
+    document.getElementById("rebirths").innerText = rebirths;
 }
 
 // Call the updateLeaderboard function when the leaderboard page loads
@@ -94,16 +120,6 @@ function goToLogin() {
 function goToRegister() {
     window.location.href = "register.html";
 }
-
-// Call the updateTop10 function when the main game page loads
-window.onload = function() {
-    if (document.getElementById("leaderboard")) {
-        displayLeaderboard();
-    } else {
-        updateTop10();
-    }
-    updatePointsDisplay(); // Make sure to update points display
-};
 
 // Call the checkAffordability function every 100 milliseconds to update button states
 setInterval(checkAffordability, 100);
