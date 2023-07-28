@@ -133,3 +133,49 @@ function goToRegister() {
 
 // Call the checkAffordability function every 100 milliseconds to update button states
 setInterval(checkAffordability, 100);
+
+// Function to display leaderboard data
+function displayLeaderboard() {
+  const leaderboardTable = document.getElementById("leaderboardTable");
+  leaderboardTable.innerHTML = `
+    <tr>
+      <th>Username</th>
+      <th>Clicks</th>
+      <th>Auto-Clicker Level</th>
+      <th>Rebirths</th>
+    </tr>
+    <!-- The leaderboard data will be dynamically populated here using JavaScript -->
+  `;
+
+  // Fetch leaderboard data from local storage
+  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+  leaderboard.sort((a, b) => b.clicks - a.clicks);
+
+  leaderboard.forEach((entry) => {
+    const row = document.createElement("tr");
+    const usernameCell = document.createElement("td");
+    const clicksCell = document.createElement("td");
+    const autoClickerLevelCell = document.createElement("td");
+    const rebirthsCell = document.createElement("td");
+
+    usernameCell.innerText = entry.username;
+    clicksCell.innerText = formatNumberWithSuffix(entry.clicks);
+    autoClickerLevelCell.innerText = formatNumberWithSuffix(entry.autoClickerLevel);
+    rebirthsCell.innerText = formatNumberWithSuffix(entry.rebirths);
+
+    row.appendChild(usernameCell);
+    row.appendChild(clicksCell);
+    row.appendChild(autoClickerLevelCell);
+    row.appendChild(rebirthsCell);
+
+    leaderboardTable.appendChild(row);
+  });
+}
+
+// Call the displayLeaderboard function when the leaderboard page loads
+window.onload = displayLeaderboard;
+
+// Function to navigate back to the main page
+function goToMainPage() {
+  window.location.href = "index.html";
+}
