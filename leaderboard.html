@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Leaderboard</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Leaderboard</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <h1>Leaderboard</h1>
-    <ol id="leaderboard">
-        <!-- The leaderboard will be populated dynamically using JavaScript -->
-    </ol>
-
-    <script src="leaderboard.js"></script>
+  <h1>Leaderboard</h1>
+  <table id="leaderboardTable">
+    <tr>
+      <th>Username</th>
+      <th>Clicks</th>
+      <th>Auto-Clicker Level</th>
+      <th>Rebirths</th>
+    </tr>
+    <!-- The leaderboard data will be dynamically populated here using JavaScript -->
+  </table>
+  <button onclick="goToMainPage()">Back to Main Page</button>
+  <script src="script.js"></script>
 </body>
-
 </html>
