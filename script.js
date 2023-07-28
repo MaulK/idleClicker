@@ -7,7 +7,17 @@ let rebirths = 0;
 const REBIRTH_CLICKS_REQUIRED = 100000;
 
 function updatePointsDisplay() {
-    document.getElementById("points").innerText = points;
+  const pointsDisplay = document.getElementById("points");
+  const formattedPoints = formatNumberWithSuffix(points);
+  pointsDisplay.innerText = formattedPoints;
+}
+// Function to format the number with currency suffix
+function formatNumberWithSuffix(number) {
+  const suffixes = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi', 'Si', 'Sp', 'Oc', 'N', 'Dc', 'Un', 'Duo', 'Tre', 'Qua', 'Qui', 'SE', 'SP', 'OC', 'NV', 'VIG', 'CE', 'TRV', 'QTU', 'SPZ', 'CJX', 'XQR', 'VNU', 'YZQ', 'KVZ', 'JZW', 'QZX', 'ZKL', 'HTZ', 'RXV', 'WZX', 'XVC', 'ZOL', 'LXS', 'YXZU', 'JXKZ', 'RTVX', 'ZHGX', 'QZQZ', 'VZVZ'];
+  const tier = Math.floor(Math.log10(Math.abs(number)) / 3);
+  const suffix = suffixes[tier];
+  const scaledNumber = number / Math.pow(10, tier * 3);
+  return scaledNumber.toFixed(2) + " " + suffix;
 }
 
 function updateAutoClickerDisplay() {
