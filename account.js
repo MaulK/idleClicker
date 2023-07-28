@@ -20,3 +20,38 @@ function loadAccountPage() {
   document.getElementById("coins").innerText = formatNumberWithSuffix(currentUser.coins);
   document.getElementById("rebirths").innerText = formatNumberWithSuffix(currentUser.rebirths);
 }
+
+// Function to load user account data from local storage
+function loadUserData() {
+  return JSON.parse(localStorage.getItem("userData")) || {};
+}
+
+// Function to save user account data to local storage
+function saveUserData(userData) {
+  localStorage.setItem("userData", JSON.stringify(userData));
+}
+
+
+}
+
+function clickPoint() {
+  let userData = loadUserData();
+  if (userData) {
+    userData.points += 1;
+    saveUserData(userData);
+    loadAccountPage();
+  }
+}
+
+function buyAutoClicker() {
+  let userData = loadUserData();
+  if (userData && userData.points >= userData.autoClickerCost) {
+    userData.points -= userData.autoClickerCost;
+    userData.autoClickerLevel += 1;
+    userData.autoClickerCost *= 2;
+    saveUserData(userData);
+    loadAccountPage();
+  }
+}
+
+window.onload = loadAccountPage;
